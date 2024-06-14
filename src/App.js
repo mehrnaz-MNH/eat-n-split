@@ -1,5 +1,7 @@
 
 import './App.css';
+import { SideBar } from './components/SideBar';
+import { useState } from 'react';
 
 const initialFriends = [
   {
@@ -22,12 +24,24 @@ const initialFriends = [
   },
 ];
 
+
 function App() {
+
+
+  const [selectedFriend, setSelectedFriend] = useState(null);
+
+
+  function handleSelect(id) {
+
+    setSelectedFriend(id);
+
+  }
+
+
   return (
-    <div className="App">
+    <div className="app">
 
-
-      hello and welcome
+      <SideBar itemsList={initialFriends} onSelectedFriend={handleSelect} selectedItem={selectedFriend} />
 
     </div>
   );

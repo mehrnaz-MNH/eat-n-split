@@ -1,5 +1,7 @@
 
 import './App.css';
+import { AddFriend } from './components/AddFriend';
+import { BillForm } from './components/BillForm';
 import { SideBar } from './components/SideBar';
 import { useState } from 'react';
 
@@ -28,7 +30,10 @@ const initialFriends = [
 function App() {
 
 
+
+
   const [selectedFriend, setSelectedFriend] = useState(null);
+  const [isFFInvisible, setFFVisible] = useState(false);
 
 
   function handleSelect(id) {
@@ -37,11 +42,34 @@ function App() {
 
   }
 
+  function handleBillFormSubmit(id, newBalance) {
+
+    initialFriends.forEach(friend => {
+      if (friend.id === id) {
+        friend.balance = newBalance;
+      }
+    });
+
+    setSelectedFriend(null);
+
+
+
+  }
+
+  function getFriendById(friends, id) {
+    return friends.find(friend => friend.id === id);
+  }
+
 
   return (
     <div className="app">
 
       <SideBar itemsList={initialFriends} onSelectedFriend={handleSelect} selectedItem={selectedFriend} />
+      <BillForm friend={getFriendById(initialFriends, selectedFriend)} onSubmitForm={handleBillFormSubmit} />
+      <button className="button" onClick={() => setFFVisible(!isFFInvisible)}>Add Friend</button>
+      {isFFInvisible && <AddFriend />}
+
+
 
     </div>
   );

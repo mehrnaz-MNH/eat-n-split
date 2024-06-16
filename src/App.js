@@ -31,9 +31,8 @@ function App() {
 
 
 
-
+  const [friendList, setFriendList] = useState([]);
   const [selectedFriend, setSelectedFriend] = useState(null);
-  const [isFFInvisible, setFFVisible] = useState(false);
 
 
   function handleSelect(id) {
@@ -44,7 +43,7 @@ function App() {
 
   function handleBillFormSubmit(id, newBalance) {
 
-    initialFriends.forEach(friend => {
+    friendList.forEach(friend => {
       if (friend.id === id) {
         friend.balance = newBalance;
       }
@@ -56,18 +55,22 @@ function App() {
 
   }
 
-  function getFriendById(friends, id) {
-    return friends.find(friend => friend.id === id);
+  function getFriendById(id) {
+    return friendList.find(friend => friend.id === id);
+  }
+
+  function handleAddFriend(newFriend) {
+    setFriendList((previousList) => [...previousList, newFriend])
   }
 
 
   return (
     <div className="app">
 
-      <SideBar itemsList={initialFriends} onSelectedFriend={handleSelect} selectedItem={selectedFriend} />
-      <BillForm friend={getFriendById(initialFriends, selectedFriend)} onSubmitForm={handleBillFormSubmit} />
-      <button className="button" onClick={() => setFFVisible(!isFFInvisible)}>Add Friend</button>
-      {isFFInvisible && <AddFriend />}
+      <SideBar itemsList={friendList} onSelectedFriend={handleSelect} selectedItem={selectedFriend} />
+      <BillForm friend={getFriendById(selectedFriend)} onSubmitForm={handleBillFormSubmit} />
+      <AddFriend onAddFriend={handleAddFriend} />
+
 
 
 
